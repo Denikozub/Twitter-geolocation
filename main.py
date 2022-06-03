@@ -7,7 +7,7 @@ from trainer import train, evaluate
 def main():
     dataset = TwitterData()
     bert_feed_forward = BertClassifier()
-    train(bert_feed_forward, dataset.train_data, dataset.val_data, learning_rate=1e-3, epochs=5, batch_size=64)
+    train(bert_feed_forward, dataset.val_data, dataset.val_data, learning_rate=1e-3, epochs=5, batch_size=64)
     evaluate(bert_feed_forward, dataset.test_data, batch_size=64)
 
 

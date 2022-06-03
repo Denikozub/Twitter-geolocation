@@ -1,3 +1,5 @@
+from os import path
+
 import torch
 from torch.optim import Adam
 from tqdm import tqdm
@@ -16,7 +18,7 @@ def geodesic_distance(a, b, to_sum=True):
                 2 * torch.atan2(torch.sqrt(t), torch.sqrt(1 - t)))
 
 
-def train(model, train_data, val_data, learning_rate, epochs, batch_size):
+def train(model, train_data, val_data, learning_rate, epochs, batch_size, model_name):
     train_dataloader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, shuffle=True)
     val_dataloader = torch.utils.data.DataLoader(val_data, batch_size=batch_size)
 
@@ -56,6 +58,8 @@ def train(model, train_data, val_data, learning_rate, epochs, batch_size):
 
         print(f'Epochs: {epoch_num + 1} | Train Loss: {total_loss_train / len(train_data): .3f} \
               | Val Loss: {total_loss_val / len(val_data): .3f}')
+        if epoch_num % 5 == 4:
+            torch.save(model.state_dict(), path.join('models', f'{model_name}_{epoch_num + 1}.pt'))
 
 
 def evaluate(model, test_data, batch_size):

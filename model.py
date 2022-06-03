@@ -7,6 +7,8 @@ class BertClassifier(nn.Module):
     def __init__(self):
         super().__init__()
         self.bert = BertModel.from_pretrained('bert-base-cased')
+        for param in self.bert.parameters():
+            param.requires_grad = False
         self.layers = nn.Sequential(
             nn.Linear(768, 128),
             nn.BatchNorm1d(128),

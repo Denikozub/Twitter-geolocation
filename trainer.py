@@ -48,7 +48,7 @@ def train(model, train_data, val_data, learning_rate, epochs, batch_size, model_
         total_loss_val = 0
         with torch.no_grad():
             for val_input, val_label in val_dataloader:
-                val_label = val_label.to(device)
+                val_label = torch.stack([val_label[0], val_label[1]], dim=1).to(device)
                 mask = val_input['attention_mask'].to(device)
                 input_id = val_input['input_ids'].squeeze(1).to(device)
 
@@ -73,7 +73,7 @@ def evaluate(model, test_data, batch_size):
     with torch.no_grad():
         for test_input, test_label in test_dataloader:
 
-            test_label = test_label.to(device)
+            test_label = torch.stack([test_label[0], test_label[1]], dim=1).to(device)
             mask = test_input['attention_mask'].to(device)
             input_id = test_input['input_ids'].squeeze(1).to(device)
 

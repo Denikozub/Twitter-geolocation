@@ -49,10 +49,14 @@ class BertAE(nn.Module):
             nn.Linear(256, 768)
         )
 
-    def forward(self, input_id, mask, decode=True):
+    @staticmethod
+    def add_noise(inputs, factor):
+        return inputs + torch.randn_like(inputs) % inputs.max() * factor
+
+    def forward(self, input_id, mask, decode=True, factor=0.01):
         _, pooled_output = self.bert(input_ids=input_id, attention_mask=mask, return_dict=False)
-        encoded = self.encoder(pooled_output)
-        return self.decoder(encoded), pooled_output if decode else encoded
+        noised_output = BertAE.add_noise(pooled_output, factor)
+        return self.decoder(self.encoder(noised_output)), pooled_output if decode else self.encoder(pooled_output)
 
     def save(self, epoch_num: int) -> None:
         torch.save(self.encoder.state_dict(), path.join('models', f'BertAE_{epoch_num}.pt'))

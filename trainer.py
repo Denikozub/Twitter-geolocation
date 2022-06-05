@@ -31,6 +31,7 @@ def train(model, train_data, val_data, learning_rate, criterion, epochs, batch_s
             input_id = train_input['input_ids'].squeeze(1).to(device)
 
             model.zero_grad()
+            # if autoencoder is trained, labels are returned by model
             if AE:
                 output, train_label = model(input_id, mask)
             else:

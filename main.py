@@ -43,7 +43,7 @@ def train_bert_encoder_ff():
           learning_rate=1e-3,
           criterion=geodesic_distance,
           epochs=10,
-          batch_size=64e)
+          batch_size=64)
     evaluate(bert_encoder_ff, dataset.test_data, batch_size=64, criterion=geodesic_distance)
 
 

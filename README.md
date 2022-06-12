@@ -7,7 +7,7 @@
 ## Data
 Processed [dataset](https://archive.org/details/twitter_cikm_2010) contains 620k tweets and corresponding coordinates.  
 Processing includes geocoding US cities, which is done using Nominatim, and country location check.  
-Train - test - val split: 80% - 10% - 10%.  
+Train - test - val split: 80% - 10% - 10%, batch size = 64.  
 The task is to predict coorditates (lat - lon) based on tweet texts.
 
 ## Loss function
@@ -25,3 +25,11 @@ It considers Earth as a sphere with a set radius, which is its simplest represen
 * ReLU is used as an activation function
 
 ### Autoencoder model
+* Used for dimensionality reduction
+* Denoising architecture (with scalable factor)
+* BERT weights are disabled while training AE
+* MSE loss is used for autoencoder training
+* Both encoder and decoder consist of two layers with ReLU activation
+* Encoder states are saved during training and used in regression model
+
+<img src=https://user-images.githubusercontent.com/41386672/173209765-9bedb5d1-1aaa-479e-a075-defcfcd29cff.png alt="" width="400"/>
